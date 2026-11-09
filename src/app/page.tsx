@@ -24,6 +24,7 @@ import {
   History,
   Leaf,
   Lock,
+  Phone,
   Plus,
   RotateCcw,
   Salad,
@@ -554,6 +555,22 @@ function HomeContent() {
         </nav>
 
         <div className="sidebar-bottom">
+          <div className="contact-box">
+            <div className="contact-label">
+              <Phone size={12} />
+              <span>CONTACT US</span>
+            </div>
+            <a href="tel:0581828996" className="contact-number">
+              0581828996
+            </a>
+            <div className="contact-sub">
+              Call or{" "}
+              <a href="https://wa.me/971581828996" target="_blank" rel="noreferrer">
+                WhatsApp
+              </a>
+            </div>
+          </div>
+
           <div className="sidebar-tip">
             <span className="tip-icon">
               <Sparkles size={18} />
@@ -606,6 +623,14 @@ function HomeContent() {
               day: "numeric",
             })}
           </span>
+          <a
+            href="tel:0581828996"
+            className="contact-pill"
+            title="Call Eat Right support"
+          >
+            <Phone size={14} />
+            <span>0581828996</span>
+          </a>
           <button
             className="help-button"
             title="Nutrition formula details"
@@ -2074,6 +2099,20 @@ function Membership({ app, onUpgrade }: { app: AppState; onUpgrade: () => void }
           <small className="demo-label" style={{ display: "block", textAlign: "center", marginTop: 12, color: "#8c9e93", fontSize: 12 }}>
             Demo mode — instant activation without charging.
           </small>
+        </div>
+      </div>
+
+      <div className="support-banner">
+        <Phone size={22} style={{ color: "#23845b", flexShrink: 0 }} />
+        <div>
+          <strong>Need assistance or personalized meal planning?</strong>
+          <p>
+            Our dedicated support team is available via direct phone and WhatsApp:{" "}
+            <a href="tel:0581828996">0581828996</a> ·{" "}
+            <a href="https://wa.me/971581828996" target="_blank" rel="noreferrer">
+              Chat on WhatsApp
+            </a>
+          </p>
         </div>
       </div>
     </section>
