@@ -13,6 +13,7 @@ export interface UserProfile {
   sexAtBirth: SexAtBirth;
   activityLevel: ActivityLevel;
   goal: Goal;
+  targetWeightKg?: number;
 }
 
 export interface Nutrition {
@@ -27,7 +28,7 @@ export interface FoodItem extends Nutrition {
   name: string;
   serving: string;
   barcode?: string;
-  source?: "manual" | "barcode" | "photo";
+  source?: "manual" | "barcode" | "photo" | "recipe";
 }
 
 export interface FoodLog {
@@ -46,10 +47,31 @@ export interface Membership {
   renewsAt?: string;
 }
 
+export interface WeightEntry {
+  date: string;
+  weightKg: number;
+}
+
+export interface Recipe {
+  id: string;
+  title: string;
+  category: "Breakfast" | "Lunch" | "Dinner" | "Snack" | "Salad";
+  prepTimeMinutes: number;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+  serving: string;
+  ingredients: string[];
+  instructions: string[];
+  tags: string[];
+}
+
 export interface AppState {
   profile: UserProfile | null;
   logs: FoodLog[];
   favorites: string[];
   membership: Membership;
   waterLogs?: Record<string, number>;
+  weightHistory?: WeightEntry[];
 }

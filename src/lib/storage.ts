@@ -8,6 +8,7 @@ export const initialState: AppState = {
   favorites: [],
   membership: { status: "free", period: "monthly" },
   waterLogs: {},
+  weightHistory: [],
 };
 
 let currentAppState: AppState = initialState;
