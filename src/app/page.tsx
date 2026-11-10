@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { membershipPricing } from '@/lib/membership';
+import ContactPhone from '@/app/components/ContactPhone';
 
 interface FoodItem {
   id: string;
@@ -200,6 +201,9 @@ export default function EatRightApp() {
             <span>🍳</span> Pantry Chef
           </button>
         </nav>
+
+      {/* Contact Phone UI */}
+      <ContactPhone />
 
         {!isPro && (
           <div className="bg-[#f3f7f0] border border-[#e5ede3] p-4 rounded-2xl mt-auto">
