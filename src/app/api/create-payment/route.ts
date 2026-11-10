@@ -3,9 +3,10 @@ import { membershipPricing } from '@/lib/membership';
 
 export async function POST(request: Request) {
   try {
-    const { period = 'monthly' } = await request.json();
-    const amount = membershipPricing[period]; // Pulls 30 AED or 360 AED from your membership.ts
-    const ZIINA_API_KEY = process.env.ZIINA_API_KEY; // Secured in Render environment variables
+    const body = await request.json();
+    const period = (body.period === 'yearly' ? 'yearly' : 'monthly') as 'monthly' | 'yearly';
+    const amount = membershipPricing[period]; // Safely typed
+    const ZIINA_API_KEY = process.env.ZIINA_API_KEY;
 
     const response = await fetch('https://api-v2.ziina.com/api/payment_intent', {
       method: 'POST',
