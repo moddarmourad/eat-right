@@ -235,12 +235,12 @@ export default function EatRightApp() {
             </div>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
                               {activeTab === 'recipes' ? 'Healthy Recipes Database' : 'Pantry Chef: What can you cook?'}
-              </h1>
+  
               {/* Contact Phone UI (header) */}
               <div className="hidden md:block mt-2">
                 <ContactPhone />
               </div>
-            </h1>
+
           </div>
 
           <div className="flex items-center gap-3 md:hidden">
