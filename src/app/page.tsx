@@ -202,8 +202,9 @@ export default function EatRightApp() {
           </button>
         </nav>
 
-      {/* Contact Phone UI */}
-      <ContactPhone />
+
+
+
 
         {!isPro && (
           <div className="bg-[#f3f7f0] border border-[#e5ede3] p-4 rounded-2xl mt-auto">
@@ -220,6 +221,11 @@ export default function EatRightApp() {
         )}
       </aside>
 
+{/* Contact Phone UI (mobile) */}
+<div className="mb-4 md:hidden">
+  <ContactPhone />
+</div>
+
       {/* Main Content Area */}
       <main className="flex-1 p-6 md:p-10 max-w-6xl mx-auto">
         <header className="flex justify-between items-center mb-8 border-b border-[#e3ebe3] pb-6">
@@ -228,7 +234,12 @@ export default function EatRightApp() {
               <span>✦</span> {activeTab === 'recipes' ? 'Full Catalog' : 'Kitchen Inventory'}
             </div>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
-              {activeTab === 'recipes' ? 'Healthy Recipes Database' : 'Pantry Chef: What can you cook?'}
+                              {activeTab === 'recipes' ? 'Healthy Recipes Database' : 'Pantry Chef: What can you cook?'}
+              </h1>
+              {/* Contact Phone UI (header) */}
+              <div className="hidden md:block mt-2">
+                <ContactPhone />
+              </div>
             </h1>
           </div>
 
