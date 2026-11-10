@@ -156,7 +156,7 @@ export default function EatRightApp() {
     setCustomInput('');
   };
 
-  // Pantry Chef Matching: Recipes that contain ANY or ALL of the selected pantry ingredients
+  // Pantry Chef Matching: Recipes that contain ANY selected pantry ingredients
   const chefRecipes = foodDatabase.filter(food => {
     if (selectedIngredients.length === 0) return true;
     return food.ingredients.some(ing => 
