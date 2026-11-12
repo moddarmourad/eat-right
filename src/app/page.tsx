@@ -108,7 +108,7 @@ const QUICK_INGREDIENTS = ['Chicken', 'Potatoes', 'Cucumber', 'Tomato', 'Avocado
 export default function EatRightApp() {
   const [isPro, setIsPro] = useState(false);
   const [activeTab, setActiveTab] = useState<'recipes' | 'chef'>('recipes');
-  
+
   // Pantry Chef state
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>(['Chicken', 'Potatoes']);
   const [customInput, setCustomInput] = useState('');
@@ -118,7 +118,16 @@ export default function EatRightApp() {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   useEffect(() => {
-    if (localStorage.getItem('eat_right_pro') === 'true') {
+    const stored = localStorage.getItem('eat_right_pro');
+    if (stored === 'true') setIsPro(true);
+  }, []);
+
+  // After payment succeeds via the webhook, the success page sets this flag.
+  useEffect(() => {
+    const pending = localStorage.getItem('eat_right_pro_pending');
+    if (pending === 'true') {
+      localStorage.setItem('eat_right_pro', 'true');
+      localStorage.removeItem('eat_right_pro_pending');
       setIsPro(true);
     }
   }, []);
@@ -134,7 +143,7 @@ export default function EatRightApp() {
       if (data.redirect_url) {
         window.location.href = data.redirect_url;
       }
-    } catch (err) {
+    } catch {
       alert('Could not start payment. Please try again.');
     }
   };
@@ -160,7 +169,7 @@ export default function EatRightApp() {
   // Pantry Chef Matching: Recipes that contain ANY selected pantry ingredients
   const chefRecipes = foodDatabase.filter(food => {
     if (selectedIngredients.length === 0) return true;
-    return food.ingredients.some(ing => 
+    return food.ingredients.some(ing =>
       selectedIngredients.some(selected => ing.toLowerCase().includes(selected.toLowerCase()))
     );
   });
@@ -188,13 +197,13 @@ export default function EatRightApp() {
         </div>
 
         <nav className="space-y-1.5 flex-1">
-          <button 
+          <button
             onClick={() => setActiveTab('recipes')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition ${activeTab === 'recipes' ? 'bg-[#eaf5ee] text-[#23845b]' : 'text-[#55665d] hover:bg-[#f0f6ef]'}`}
           >
             <span>📖</span> Healthy Recipes
           </button>
-          <button 
+          <button
             onClick={() => setActiveTab('chef')}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition ${activeTab === 'chef' ? 'bg-[#eaf5ee] text-[#23845b]' : 'text-[#55665d] hover:bg-[#f0f6ef]'}`}
           >
@@ -202,16 +211,12 @@ export default function EatRightApp() {
           </button>
         </nav>
 
-
-
-
-
         {!isPro && (
           <div className="bg-[#f3f7f0] border border-[#e5ede3] p-4 rounded-2xl mt-auto">
             <span className="text-xl mb-2 block">🔒</span>
             <strong className="text-sm block text-[#192b23]">Unlock Pro Access</strong>
             <p className="text-xs text-[#728479] mt-1 mb-3">Get unlimited recipes and advanced macros.</p>
-            <button 
+            <button
               onClick={handleUpgrade}
               className="w-full bg-[#23845b] hover:bg-[#1c6d4a] text-white py-2 rounded-xl text-xs font-bold shadow transition"
             >
@@ -221,10 +226,10 @@ export default function EatRightApp() {
         )}
       </aside>
 
-{/* Contact Phone UI (mobile) */}
-<div className="mb-4 md:hidden">
-  <ContactPhone />
-</div>
+      {/* Contact Phone UI (mobile) */}
+      <div className="mb-4 md:hidden">
+        <ContactPhone />
+      </div>
 
       {/* Main Content Area */}
       <main className="flex-1 p-6 md:p-10 max-w-6xl mx-auto">
@@ -234,17 +239,16 @@ export default function EatRightApp() {
               <span>✦</span> {activeTab === 'recipes' ? 'Full Catalog' : 'Kitchen Inventory'}
             </div>
             <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
-                              {activeTab === 'recipes' ? 'Healthy Recipes Database' : 'Pantry Chef: What can you cook?'}
-  
-              {/* Contact Phone UI (header) */}
-              <div className="hidden md:block mt-2">
-                <ContactPhone />
-              </div>
-
+              {activeTab === 'recipes' ? 'Healthy Recipes Database' : 'Pantry Chef: What can you cook?'}
+            </h1>
+            {/* Contact Phone UI (header) */}
+            <div className="hidden md:block mt-2">
+              <ContactPhone />
+            </div>
           </div>
 
           <div className="flex items-center gap-3 md:hidden">
-            <button 
+            <button
               onClick={() => setActiveTab(activeTab === 'recipes' ? 'chef' : 'recipes')}
               className="bg-[#23845b] text-white px-4 py-2 rounded-xl text-xs font-bold"
             >
@@ -268,8 +272,8 @@ export default function EatRightApp() {
                       key={ing}
                       onClick={() => toggleIngredient(ing)}
                       className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition ${
-                        selected 
-                          ? 'bg-[#23845b] text-white shadow' 
+                        selected
+                          ? 'bg-[#23845b] text-white shadow'
                           : 'bg-white border border-[#d4e5d7] text-[#3b5043] hover:bg-[#eaf4eb]'
                       }`}
                     >
@@ -280,7 +284,7 @@ export default function EatRightApp() {
               </div>
 
               <form onSubmit={addCustomIngredient} className="flex gap-2">
-                <input 
+                <input
                   type="text"
                   placeholder="Type any other ingredient (e.g., olive oil, garlic)..."
                   value={customInput}
@@ -348,8 +352,8 @@ export default function EatRightApp() {
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap ${
-                      selectedCategory === cat 
-                        ? 'bg-[#23845b] text-white shadow-sm' 
+                      selectedCategory === cat
+                        ? 'bg-[#23845b] text-white shadow-sm'
                         : 'bg-white border border-[#e3ebe3] text-[#4a5c53] hover:bg-[#eaf5ee]'
                     }`}
                   >
@@ -359,7 +363,7 @@ export default function EatRightApp() {
               </div>
 
               <div className="w-full md:w-72">
-                <input 
+                <input
                   type="text"
                   placeholder="Search recipe or ingredient..."
                   value={searchQuery}
